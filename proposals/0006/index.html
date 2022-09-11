@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=stylesheet href=https://hsd-dev.org/css/main.css><link rel=stylesheet href=https://hsd-dev.org/css/github-markdown.min.css><link rel=stylesheet href=/HIPs/css/style.css><title>Trustless Live Auctions for Handshake - Handshake Improvement Proposals</title><link rel=icon type=image/x-icon href=https://handshake.org/img/favicon/hns-favicon.ico><title>Handshake Improvement Proposals</title><meta name=title content="Trustless Live Auctions for Handshake"><meta name=description content="HIP-0006\nCategory: Informational\nStatus: Final"><meta name=author content="Matthew Zipkin (@pinheadmz)"><meta property="og:type" content="website"><meta property="og:url" content="https://hsd-dev.org/HIPs/proposals/0006/"><meta property="og:title" content="Trustless Live Auctions for Handshake"><meta property="og:description" content="HIP-0006\nCategory: Informational\nStatus: Final"><meta property="og:image" content="https://hsd-dev.org/img/logo.svg"><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hsd-dev.org/HIPs/proposals/0006/"><meta property="twitter:title" content="Trustless Live Auctions for Handshake"><meta property="twitter:description" content="HIP-0006\nCategory: Informational\nStatus: Final"><meta property="twitter:image" content="https://hsd-dev.org/img/logo.svg"></head><body><header><a href=/><img alt="Handshake logo" src=https://hsd-dev.org/img/logo.svg></a></header><main><nav><div class=wrapper><ul><li><strong>HIPs</strong></li><li><a href=/HIPs/>Home</a></li><li><a href=/HIPs/proposals/>Proposals</a></li><li><a href=https://t.me/hns_tech>Tech Chat</a></li></ul><ul><li><strong class=upper>category</strong></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/informational>Informational</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/standards>Standards</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/standards-track>Standards track</a></li></ul><ul><li><strong class=upper>status</strong></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/status/draft>Draft</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/status/final>Final</a></li></ul></div></nav><article class=page><section class=markdown-body><h2>HIP-0006: Trustless Live Auctions for Handshake</h2><h2 id=abstract>Abstract</h2><p>We propose an ascending-price auction system for HNS domain names without trust or
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=stylesheet href=https://hsd-dev.org/css/main.css><link rel=stylesheet href=https://hsd-dev.org/css/github-markdown.min.css><link rel=stylesheet href=/HIPs/css/style.css><title>Trustless Live Auctions for Handshake - Handshake Improvement Proposals</title><link rel=icon type=image/x-icon href=https://handshake.org/img/favicon/hns-favicon.ico><title>Handshake Improvement Proposals</title><meta name=title content="Trustless Live Auctions for Handshake"><meta name=description content="HIP-0006 - Category: Informational - Status: Final"><meta name=author content="Matthew Zipkin (@pinheadmz)"><meta property="og:type" content="website"><meta property="og:url" content="https://hsd-dev.org/HIPs/proposals/0006/"><meta property="og:title" content="Trustless Live Auctions for Handshake"><meta property="og:description" content="HIP-0006 - Category: Informational - Status: Final"><meta property="og:image" content="https://hsd-dev.org/img/logo.svg"><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://hsd-dev.org/HIPs/proposals/0006/"><meta property="twitter:title" content="Trustless Live Auctions for Handshake"><meta property="twitter:description" content="HIP-0006 - Category: Informational - Status: Final"><meta property="twitter:image" content="https://hsd-dev.org/img/logo.svg"></head><body><header><a href=/><img alt="Handshake logo" src=https://hsd-dev.org/img/logo.svg></a></header><main><nav><div class=wrapper><ul><li><strong>HIPs</strong></li><li><a href=/>Home</a></li><li><a href=/HIPs/proposals/>Proposals</a></li><li><a href=https://t.me/hns_tech>Tech Chat</a></li></ul><ul><li><strong class=upper>category</strong></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/informational>Informational</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/standards>Standards</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/category/standards-track>Standards track</a></li></ul><ul><li><strong class=upper>status</strong></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/status/draft>Draft</a></li><li class=capitalize><a href=https://hsd-dev.org/HIPs/status/final>Final</a></li></ul></div></nav><article class=page><section class=markdown-body><h2>HIP-0006: Trustless Live Auctions for Handshake</h2><h2 id=abstract>Abstract</h2><p>We propose an ascending-price auction system for HNS domain names without trust or
 third-party custody. A name owner initiates an auction by locking their TLD with
 a verifiable script. Bidders place bids by partially-signing <code>TRANSFER</code> transactions,
 and the name owner eventually picks the highest bid and atomically swaps the name
@@ -18,11 +18,11 @@ small amount of interactivity required in the protocol, the name owner must also
 where bidders can submit bids. It can be a private email address (in which case the name owner
 may choose to keep all bids confidential or truly blind), or it can be a public server
 that announces every new bid as they arrive.</p><h3 id=auction-bid>Auction BID</h3><p>A user that wants to bid on the name constructs a partially-signed transaction in
-the following format:</p><pre><code>vin:
+the following format:</p><pre tabindex=0><code>vin:
   0: current name owner, encumbered by Swap Script
   1: A UTXO controlled by the bidder of some value V
 vout:
-  0: TRANSFER to the bidder's address
+  0: TRANSFER to the bidder&#39;s address
 </code></pre><p>Input 1 is signed with <code>SIGHASH_ANYONECANPAY | SIGHASH_SINGLEREVERSE</code>. This commits
 the incoming payment to the name transfer. Note that Input 0 is not signed yet,
 but it must be the current name-owning UTXO or the linked output 0 would be invalid.</p><p>Note that this transaction has no change output. Because the bidder is signing
@@ -36,11 +36,11 @@ of values (1 HNS, 10 HNS, 100 HNS, 1000 HNS, etc).</p></li><li><p>When the user 
 to itself, creating a coin with the exact value desired. This output can be used
 (even before it is confirmed) in this protocol.</p></li></ul><h3 id=auction-finalize>Auction FINALIZE</h3><p>The name owner collects partially-signed bids and after some time, declares the highest
 value bid the winner. The name owner completes the auction by adding a payment output
-to the partially-signed transaction, signing and broadcasting:</p><pre><code>vin:
+to the partially-signed transaction, signing and broadcasting:</p><pre tabindex=0><code>vin:
   0: current name owner, encumbered by Swap Script
   1: A UTXO controlled by the bidder of some value V
 vout:
-  0: TRANSFER to the bidder's address
+  0: TRANSFER to the bidder&#39;s address
   1: payment to the name-owner
 </code></pre><p>The name owner pays themselves from the fully funded transaction, and signs input 0
 with <code>SIGHASH_ALL</code>. This transaction is a valid atomic swap and can be broadcast to the network.
@@ -72,7 +72,7 @@ refund their bid value using <code>bid_redeem_script</code> below. That refund t
 have a locktime set at <code>expiration_height</code> and of course can not be submitted until that time.</p><p>The only potential grief attack is a race condition after <code>expiration_height</code> has been reached
 in which both spending paths are valid: the name owner can still complete the atomic swap, and the
 bidder can now submit a refund. However, if the name owner has already completed the auction
-and finalized a &ldquo;winner&rdquo; then only the refund path is valid.</p><p><strong>bid_lock_script</strong>:</p><pre><code>OP_IF
+and finalized a &ldquo;winner&rdquo; then only the refund path is valid.</p><p><strong>bid_lock_script</strong>:</p><pre tabindex=0><code>OP_IF
   OP_2
     &lt;owner_pk&gt;
     &lt;bidder_pk&gt;
@@ -85,10 +85,10 @@ OP_ELSE
   &lt;bidder_pk&gt;
   OP_CHECKSIG
 OP_ENDIF
-</code></pre><p><strong>bid_submit_script</strong>:</p><pre><code>OP_1
+</code></pre><p><strong>bid_submit_script</strong>:</p><pre tabindex=0><code>OP_1
 0x00 # placeholder for &lt;owner_sig&gt;
 &lt;bidder_sig&gt;
-</code></pre><p><strong>bid_redeem_script</strong>:</p><pre><code>OP_0
+</code></pre><p><strong>bid_redeem_script</strong>:</p><pre tabindex=0><code>OP_0
 &lt;bidder_sig&gt;
 </code></pre><h3 id=a-semi-custodial-platform-could-help-ensure-auction-finality>A semi-custodial platform could help ensure auction finality</h3><p>One possible scenario with this protocol is that the name owner never finalizes
 any bids. They might have decided a &ldquo;reserve price&rdquo; was not met or just changed
@@ -96,17 +96,17 @@ their mind about the sale. One technique that may be used to ensure bidders that
 a winner will be chosen by a certain time is to include a trusted moderator.</p><p>Auctions could be held on a platform like Shakedex or run by an agency with a
 good reputation like Namebase or Kyokan. This agent would publish a static public
 key for their platform, and name owners would have to incorporate that key along
-with a relative locktime into the HIP-0001 locking script like so:</p><pre><code>OP_TYPE
+with a relative locktime into the HIP-0001 locking script like so:</p><pre tabindex=0><code>OP_TYPE
 0x09 // TRANSFER
 OP_EQUAL
 OP_IF
   OP_IF
-    &lt;name-owner's public key&gt;
+    &lt;name-owner&#39;s public key&gt;
   OP_ELSE
     &lt;timespan of auction&gt;
     OP_CSV
     OP_DROP
-    &lt;platform's public key&gt;
+    &lt;platform&#39;s public key&gt;
   OP_ENDIF
   OP_CHECKSIG
 OP_ELSE
@@ -130,5 +130,5 @@ partially-signed transactions where they are accessible to the name owner to fin
 A name owner could therefore open an auction by adding TXT records to their zone
 announcing the endpoint to send bids, along with the redeem script to prove the name
 is locked by HIP-0001! Once this UPDATE has been sent, users just need to wait
-for the name owner to FINALIZE the transfer to the HIP-0001 address, and the auction is LIVE!</p><hr><div class=info><strong>HIP:</strong><div>0006</div><strong>Status:</strong><div><a href=/HIPs/status/final>Final</a></div><strong>Type:</strong><div><a href=/HIPs/category/informational>Informational</a></div><strong>Created:</strong><div>Thu, 17 Jun 2021</div><strong>Last commit:</strong><div>Mon, 12 Jul 2021</div><strong>Author:</strong><div>Matthew Zipkin (@pinheadmz)</div></div><hr><a href=https://github.com/handshake-org/HIPs/blob/master/HIP-0006.md>Edit on GitHub</a></div></section><aside><h2>Table of Contents</h2><nav id=TableOfContents><ul><li><a href=#abstract>Abstract</a></li><li><a href=#definitions>Definitions</a></li><li><a href=#protocol-summary>Protocol Summary</a><ul><li><a href=#auction-open>Auction OPEN</a></li><li><a href=#auction-bid>Auction BID</a></li><li><a href=#auction-finalize>Auction FINALIZE</a></li></ul></li><li><a href=#extra-notes>Extra Notes</a><ul><li><a href=#bids-must-remain-valid-off-chain>Bids must remain valid off-chain</a></li><li><a href=#locked-bids-mode>&ldquo;Locked bids&rdquo; mode</a></li><li><a href=#a-semi-custodial-platform-could-help-ensure-auction-finality>A semi-custodial platform could help ensure auction finality</a></li><li><a href=#where--when>Where & When</a></li></ul></li></ul></nav></aside></article></main><footer id=footer>©&nbsp;2021 Handshake Community<a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>(Creative
+for the name owner to FINALIZE the transfer to the HIP-0001 address, and the auction is LIVE!</p><hr><div class=info><strong>HIP:</strong><div>0006</div><strong>Status:</strong><div><a href=/status/final>Final</a></div><strong>Type:</strong><div><a href=/category/informational>Informational</a></div><strong>Created:</strong><div>Thu, 17 Jun 2021</div><strong>Last commit:</strong><div>Sun, 11 Sep 2022</div><strong>Author:</strong><div>Matthew Zipkin (@pinheadmz)</div></div><hr><a href=https://github.com/handshake-org/HIPs/blob/master/HIP-0006.md>Edit on GitHub</a></div></section><aside><h2>Table of Contents</h2><nav id=TableOfContents><ul><li><a href=#abstract>Abstract</a></li><li><a href=#definitions>Definitions</a></li><li><a href=#protocol-summary>Protocol Summary</a><ul><li><a href=#auction-open>Auction OPEN</a></li><li><a href=#auction-bid>Auction BID</a></li><li><a href=#auction-finalize>Auction FINALIZE</a></li></ul></li><li><a href=#extra-notes>Extra Notes</a><ul><li><a href=#bids-must-remain-valid-off-chain>Bids must remain valid off-chain</a></li><li><a href=#locked-bids-mode>&ldquo;Locked bids&rdquo; mode</a></li><li><a href=#a-semi-custodial-platform-could-help-ensure-auction-finality>A semi-custodial platform could help ensure auction finality</a></li><li><a href=#where--when>Where & When</a></li></ul></li></ul></nav></aside></article></main><footer id=footer>©&nbsp;2021 Handshake Community<a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>(Creative
 Commons Attribution-ShareAlike 4.0 International License)</a></footer></body></html>
